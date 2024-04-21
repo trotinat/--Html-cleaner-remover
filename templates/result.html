@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processed HTML Result</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Additional styling for the notification */
+        #notification {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+        }
+
+        #notification.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow p-5">
+            <h1 class="text-lg font-bold mb-4">Processed HTML:</h1>
+            <textarea id="htmlOutput" class="w-full h-64 p-2 bg-gray-50 rounded border border-gray-300" readonly>{{ processed_html }}</textarea>
+            <button onclick="copyToClipboard()" class="mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600">
+                Copy to Clipboard
+            </button>
+            <button onclick="goBack()" class="mt-4 ml-2 px-4 py-2 bg-gray-500 text-white font-semibold rounded hover:bg-gray-600">
+                Go Back
+            </button>
+            <div id="notification">Copied to clipboard!</div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            var copyText = document.getElementById("htmlOutput");
+            copyText.select();
+            document.execCommand("copy");
+            var notification = document.getElementById("notification");
+            notification.className = 'show';
+            setTimeout(function(){ notification.className = notification.className.replace("show", ""); }, 3000);
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
